@@ -2,33 +2,15 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useRive } from 'rive-react';
 
 export default function BackgroundAnimation() {
-  const [RiveComponent, setRiveComponent] = useState<any>(null);
-
-  // Load Rive animation if available
-  useEffect(() => {
-    const loadRive = async () => {
-      try {
-        console.log('Loading background Rive animation...');
-        const riveModule = await import('rive-react');
-        const { useRive } = riveModule;
-        const riveResult = useRive({
-          src: '/assets/cloudy_walk.riv',
-          autoplay: true,
-          stateMachines: 'State Machine 1',
-        });
-        setRiveComponent(() => riveResult.RiveComponent);
-        console.log('✓ Background Rive animation loaded!');
-      } catch (error: any) {
-        console.log('Background Rive animation not available:', error.message || error);
-      }
-    };
-    
-    loadRive();
-  }, []);
-
+  // Call hook at top level
+  const { RiveComponent } = useRive({
+    src: '/assets/cloudy_walk.riv',
+    autoplay: true,
+    stateMachines: 'State Machine 1',
+  });
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
       {/* Multiple animated instances for background effect */}

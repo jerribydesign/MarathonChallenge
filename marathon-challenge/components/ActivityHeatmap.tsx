@@ -127,7 +127,7 @@ export default function ActivityHeatmap({ activities, year }: ActivityHeatmapPro
     }
     
     return weekArray;
-  }, [yearDays]);
+  }, [yearDays, currentYear]);
 
   // Get month labels for the top
   const monthLabels = useMemo(() => {

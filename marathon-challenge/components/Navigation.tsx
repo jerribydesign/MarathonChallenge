@@ -92,7 +92,7 @@ export default function Navigation({ stravaAthleteId, needsSync }: NavigationPro
               {stravaAthleteId && (
                 <SyncButton
                   stravaAthleteId={stravaAthleteId}
-                  needsSync={needsSync}
+                  needsSync={needsSync ?? false}
                 />
               )}
             </div>

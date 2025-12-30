@@ -44,7 +44,7 @@ export default function ProgressCard({ milesTotal, goal, displayName }: Progress
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 transform transition-all duration-300 hover:shadow-xl">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 animate-fade-in">
-        {displayName ? `${displayName}'s Progress` : 'Your Progress'}
+        {displayName ? `${displayName}&apos;s Progress` : 'Your Progress'}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -105,7 +105,7 @@ export default function ProgressCard({ milesTotal, goal, displayName }: Progress
 
       {milesTotal >= goal && (
         <div className="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded animate-bounce-in">
-          🎉 Congratulations! You've reached your monthly goal!
+          🎉 Congratulations! You&apos;ve reached your monthly goal!
         </div>
       )}
     </div>

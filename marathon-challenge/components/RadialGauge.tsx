@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface RadialGaugeProps {
   value: number; // 0-100
@@ -39,25 +39,32 @@ export default function RadialGauge({
   zones = [],
 }: RadialGaugeProps) {
   const [animatedValue, setAnimatedValue] = useState(0);
+  const previousValueRef = useRef(0);
 
   // Animate value change
   useEffect(() => {
     if (!animated) {
       setAnimatedValue(value);
+      previousValueRef.current = value;
       return;
     }
 
     const duration = 1000; // 1 second
     const steps = 60;
-    const increment = (value - animatedValue) / steps;
+    const startValue = previousValueRef.current;
+    const targetValue = value;
+    const increment = (targetValue - startValue) / steps;
     let currentStep = 0;
 
     const timer = setInterval(() => {
       currentStep++;
       if (currentStep <= steps) {
-        setAnimatedValue(prev => prev + increment);
+        const newValue = startValue + increment * currentStep;
+        setAnimatedValue(newValue);
+        previousValueRef.current = newValue;
       } else {
-        setAnimatedValue(value);
+        setAnimatedValue(targetValue);
+        previousValueRef.current = targetValue;
         clearInterval(timer);
       }
     }, duration / steps);

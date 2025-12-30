@@ -3,34 +3,15 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useRive } from 'rive-react';
 
 export default function CenterRiveAnimation() {
-  const [RiveComponent, setRiveComponent] = useState<any>(null);
-
-  // Load Rive animation
-  useEffect(() => {
-    const loadRive = async () => {
-      try {
-        const riveModule = await import('rive-react');
-        const { useRive } = riveModule;
-        
-        // Load from public/assets folder (Next.js serves files from public/)
-        const riveResult = useRive({
-          src: '/assets/cute_boy_running.riv',
-          autoplay: true,
-          stateMachines: 'State Machine 1', // Update if your state machine has a different name
-        });
-        
-        setRiveComponent(() => riveResult.RiveComponent);
-        console.log('✓ Center Rive animation loaded successfully!');
-      } catch (error: any) {
-        console.log('⚠️ Rive animation not available:', error.message || error);
-      }
-    };
-    
-    loadRive();
-  }, []);
+  // Call hook at top level
+  const { RiveComponent } = useRive({
+    src: '/assets/cute_boy_running.riv',
+    autoplay: true,
+    stateMachines: 'State Machine 1',
+  });
 
   return (
     <div className="flex items-center justify-center py-8 my-8">

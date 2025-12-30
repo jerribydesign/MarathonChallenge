@@ -1,13 +1,13 @@
 // Get user's activities for dashboard display
 
 import { NextRequest, NextResponse } from 'next/server';
-
-export const dynamic = 'force-dynamic';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabaseServer';
 import { refreshStravaToken, fetchStravaActivities } from '@/lib/strava';
 import { getCurrentMonthRange } from '@/lib/dates';
 import { metersToMilesRounded } from '@/lib/miles';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {

@@ -3,6 +3,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRive } from 'rive-react';
 
 interface MarathonMapProps {
   milesCompleted: number;
@@ -50,44 +51,16 @@ function getPositionOnPath(progress: number): { x: number; y: number } {
 
 export default function MarathonMap({ milesCompleted, totalMiles }: MarathonMapProps) {
   const [animatedProgress, setAnimatedProgress] = useState(0);
-  const [RiveComponent, setRiveComponent] = useState<any>(null);
-  const [riveInstance, setRiveInstance] = useState<any>(null);
+
+  // Call hook at top level
+  const { RiveComponent } = useRive({
+    src: '/assets/cloudy_walk.riv',
+    autoplay: true,
+    stateMachines: 'State Machine 1',
+  });
 
   const progress = milesCompleted / totalMiles;
   const position = getPositionOnPath(animatedProgress);
-
-  // Load Rive animation if available
-  useEffect(() => {
-    // Dynamically import Rive - using rive-react package
-    const loadRive = async () => {
-      try {
-        console.log('Loading Rive animation...');
-        // Import rive-react (the package we installed)
-        const riveModule = await import('rive-react');
-        console.log('Rive module loaded:', riveModule);
-        const { useRive } = riveModule;
-        const riveResult = useRive({
-          src: '/assets/cloudy_walk.riv', // Your cloudy_walk Rive file
-          autoplay: true,
-          stateMachines: 'State Machine 1', // Update if your state machine has a different name
-        });
-        console.log('Rive result:', riveResult);
-        setRiveComponent(() => riveResult.RiveComponent);
-        setRiveInstance(riveResult.rive);
-        console.log('✓ Rive animation loaded successfully!');
-      } catch (error: any) {
-        // Rive package not installed or file not found - that's okay, we'll use fallback
-        console.error('Rive animation error:', error);
-        if (error.code === 'MODULE_NOT_FOUND' || error.message?.includes('Cannot find module')) {
-          console.log('⚠️ Rive package not installed. Run: npm install rive-react');
-        } else {
-          console.log('⚠️ Rive animation error:', error.message || error);
-        }
-      }
-    };
-    
-    loadRive();
-  }, []);
 
   // Animate progress smoothly
   useEffect(() => {
