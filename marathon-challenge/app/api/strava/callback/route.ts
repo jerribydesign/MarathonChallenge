@@ -1,6 +1,8 @@
 // Exchange OAuth code for tokens and create/update user
 
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabaseServer';
 import type { StravaTokenResponse } from '@/types/strava';

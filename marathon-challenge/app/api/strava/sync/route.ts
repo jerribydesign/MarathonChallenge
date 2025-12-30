@@ -1,6 +1,8 @@
 // Sync Strava activities for a user and update monthly mileage
 
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { supabase } from '@/lib/supabaseServer';
 import { refreshStravaToken, fetchStravaActivities } from '@/lib/strava';
 import { getCurrentMonthRange, getCurrentMonthYear } from '@/lib/dates';

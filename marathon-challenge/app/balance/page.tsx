@@ -1,6 +1,8 @@
 // Balance Dashboard - Pace Balance Chart view
 
 import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabaseServer';
 import BalanceDashboard from '@/components/BalanceDashboard';

@@ -1,6 +1,8 @@
 // Get historical activities for Zoom Out dashboard (last 4 months)
 
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabaseServer';
 import { refreshStravaToken, fetchStravaActivities } from '@/lib/strava';

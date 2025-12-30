@@ -1,6 +1,8 @@
 // Dashboard page with progress and leaderboard
 
 import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabaseServer';
 import { getCurrentMonthYear } from '@/lib/dates';
