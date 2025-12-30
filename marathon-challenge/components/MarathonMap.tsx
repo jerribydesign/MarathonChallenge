@@ -3,7 +3,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRive } from 'rive-react';
 
 interface MarathonMapProps {
   milesCompleted: number;
@@ -51,13 +50,6 @@ function getPositionOnPath(progress: number): { x: number; y: number } {
 
 export default function MarathonMap({ milesCompleted, totalMiles }: MarathonMapProps) {
   const [animatedProgress, setAnimatedProgress] = useState(0);
-
-  // Call hook at top level
-  const { RiveComponent } = useRive({
-    src: '/assets/cloudy_walk.riv',
-    autoplay: true,
-    stateMachines: 'State Machine 1',
-  });
 
   const progress = milesCompleted / totalMiles;
   const position = getPositionOnPath(animatedProgress);
@@ -151,18 +143,11 @@ export default function MarathonMap({ milesCompleted, totalMiles }: MarathonMapP
           }}
         >
           <div className="relative">
-            {/* Rive animation container - cloudy_walk animation */}
+            {/* Emoji animation container */}
             <div className="w-20 h-20 relative flex items-center justify-center">
-              {RiveComponent ? (
-                <div className="w-full h-full transform scale-110 drop-shadow-lg">
-                  <RiveComponent className="w-full h-full" />
-                </div>
-              ) : (
-                // Fallback placeholder if Rive file not loaded
-                <div className="w-12 h-12 bg-indigo-600 dark:bg-indigo-400 rounded-full border-4 border-white shadow-xl flex items-center justify-center animate-run relative">
-                  <span className="text-white text-xl">🏃</span>
-                </div>
-              )}
+              <div className="w-12 h-12 bg-indigo-600 dark:bg-indigo-400 rounded-full border-4 border-white shadow-xl flex items-center justify-center animate-bounce relative">
+                <span className="text-white text-xl">🏃</span>
+              </div>
             </div>
             
             {/* Pulse effect ring */}

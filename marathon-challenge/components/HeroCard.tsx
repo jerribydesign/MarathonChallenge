@@ -3,24 +3,6 @@
 
 'use client';
 
-import dynamic from 'next/dynamic';
-
-// Dynamically import Rive animation wrapper to avoid SSR issues
-// This ensures useRive hook is only called on client side
-const RiveAnimationWrapper = dynamic(
-  () => import('@/components/RiveAnimationWrapper'),
-  { 
-    ssr: false,
-      loading: () => (
-        <div className="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-          <div className="w-32 h-32 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-6xl opacity-50">🏃</span>
-          </div>
-        </div>
-      )
-  }
-);
-
 interface HeroCardProps {
   greeting: string; // e.g., "GOOD MORNING"
   primaryMetric: {
@@ -88,13 +70,14 @@ export default function HeroCard({
           )}
         </div>
 
-        {/* Rive Animation - Center of card */}
+        {/* Animation - Center of card */}
         <div className="flex-1 flex items-center justify-center my-4">
           <div className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-            <RiveAnimationWrapper 
-              src="/assets/cute_boy_running.riv"
-              className="w-full h-full"
-            />
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="w-32 h-32 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center animate-bounce">
+                <span className="text-6xl opacity-50">🏃</span>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -1,31 +1,15 @@
-// Center Rive Animation Component
-// Displays Rive animation in the center of the dashboard
+// Center Animation Component
+// Displays emoji animation in the center of the dashboard
 
 'use client';
 
-import { useRive } from 'rive-react';
-
 export default function CenterRiveAnimation() {
-  // Call hook at top level
-  const { RiveComponent } = useRive({
-    src: '/assets/cute_boy_running.riv',
-    autoplay: true,
-    stateMachines: 'State Machine 1',
-  });
-
   return (
     <div className="flex items-center justify-center py-8 my-8">
       <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
-        {RiveComponent ? (
-          <div className="w-full h-full transform scale-110">
-            <RiveComponent className="w-full h-full" />
-          </div>
-        ) : (
-          // Fallback placeholder
-          <div className="w-32 h-32 bg-[#1a1f2e] border border-white/10 rounded-full flex items-center justify-center">
-            <span className="text-6xl opacity-50">🏃</span>
-          </div>
-        )}
+        <div className="w-32 h-32 bg-[#1a1f2e] border border-white/10 rounded-full flex items-center justify-center animate-bounce">
+          <span className="text-6xl opacity-50">🏃</span>
+        </div>
       </div>
     </div>
   );

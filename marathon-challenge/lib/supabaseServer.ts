@@ -1,25 +1,46 @@
 // Supabase server-side client (uses service role key)
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-if (!process.env.SUPABASE_URL) {
-  throw new Error('Missing SUPABASE_URL environment variable');
-}
+// Lazy initialization to avoid build-time errors
+// During build, env vars might not be available, so we delay initialization
+let supabaseClient: SupabaseClient | null = null;
 
-if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
-}
+function getSupabaseClient(): SupabaseClient {
+  if (!supabaseClient) {
+    // Only check env vars when actually initializing (at runtime, not build time)
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-export const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
+    if (!supabaseUrl) {
+      throw new Error('Missing SUPABASE_URL environment variable');
+    }
+
+    if (!supabaseKey) {
+      throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
+    }
+
+    supabaseClient = createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
   }
-);
+
+  return supabaseClient;
+}
+
+// Export a Proxy that lazily initializes the client on first access
+// This allows the module to be imported during build without errors
+export const supabase = new Proxy({} as SupabaseClient, {
+  get(_target, prop) {
+    const client = getSupabaseClient();
+    const value = (client as any)[prop];
+    // Bind functions to maintain 'this' context
+    return typeof value === 'function' ? value.bind(client) : value;
+  },
+}) as SupabaseClient;
 
 // Database types
 export interface User {
